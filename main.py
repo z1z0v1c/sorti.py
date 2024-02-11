@@ -2,12 +2,12 @@ import os
 import sys
 
 extensions = {
-    "apps" : [".deb", ".rpm", ".tar.gz", ".run", ".exe", ".msi", ".jar", ".dmg", ".app", ".apk"],
-    "code" : [".py", ".java", ".go", ".c", ".h", ".cpp", ".cs", ".js", ".css", "html", ".xml"],
-    "docs" : [".txt", ".pdf", ".odt", ".ods", ".odp", ".doc", ".docx", ".xlsx", ".pptx", ".csv", ".md"],
-    "pics" : [".jpg", ".jpeg", ".png" ".svg", ".gif", ".bmp", ".psd", ".ai"],
-    "video" : [".mp4", ".avi", ".mpg", ".mpeg", ".mkv", ".wmv", ".mov", ".m4v"],
-    "audio" : [".mp3", ".wav",".wma", ".m4a", ".aac"]
+    "Applications" : [".deb", ".rpm", ".tar.gz", ".run", ".exe", ".msi", ".jar", ".dmg", ".app", ".apk"],
+    "Code" : [".py", ".java", ".go", ".c", ".h", ".cpp", ".cs", ".js", ".css", "html", ".xml"],
+    "Documents" : [".txt", ".pdf", ".odt", ".ods", ".odp", ".doc", ".docx", ".xlsx", ".pptx", ".csv", ".md"],
+    "Pictures" : [".jpg", ".jpeg", ".png" ".svg", ".gif", ".bmp", ".psd", ".ai"],
+    "Videos" : [".mp4", ".avi", ".mpg", ".mpeg", ".mkv", ".wmv", ".mov", ".m4v"],
+    "Music" : [".mp3", ".wav",".wma", ".m4a", ".aac"]
 }
 
 
@@ -22,12 +22,22 @@ def main():
             print(f"Changed working directory to: {directory_path}")
         except FileNotFoundError:
             print(f"The folder '{directory_path}' does not exist.")
+            sys.exit(1)
         
         contents = os.listdir(directory_path)
 
-        for item in contents:
-            print(item)
-
+        for file in contents:
+            for_other = True
+            
+            for extension_type, exts in extensions.items():
+                for extension in exts:
+                    if file.endswith(extension):
+                        print(f"{extension_type}: {file}")
+                        for_other = False
+                        
+            if for_other:
+                print(f"Other: {file}")      
+            
 
 if __name__ == "__main__":
     main()
