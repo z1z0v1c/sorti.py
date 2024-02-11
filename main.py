@@ -1,6 +1,16 @@
 import os
 import sys
 
+extensions = {
+    "apps" : [".deb", ".rpm", ".tar.gz", ".run", ".exe", ".msi", ".jar", ".dmg", ".app", ".apk"],
+    "code" : [".py", ".java", ".go", ".c", ".h", ".cpp", ".cs", ".js", ".css", "html", ".xml"],
+    "docs" : [".txt", ".pdf", ".odt", ".ods", ".odp", ".doc", ".docx", ".xlsx", ".pptx", ".csv", ".md"],
+    "pics" : [".jpg", ".jpeg", ".png" ".svg", ".gif", ".bmp", ".psd", ".ai"],
+    "video" : [".mp4", ".avi", ".mpg", ".mpeg", ".mkv", ".wmv", ".mov", ".m4v"],
+    "audio" : [".mp3", ".wav",".wma", ".m4a", ".aac"]
+}
+
+
 def main():
     if (len(sys.argv) != 2):
         print("Specify the path to a single folder")
