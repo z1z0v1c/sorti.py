@@ -1,5 +1,8 @@
 import os
 import sys
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 extensions = {
     "Applications" : [".deb", ".rpm", ".tar.gz", ".run", ".exe", ".msi", ".jar", ".dmg", ".app", ".apk"],
@@ -13,15 +16,15 @@ extensions = {
 
 def main():
     if (len(sys.argv) != 2):
-        print("Specify the path to a single folder")
+        logging.error("Specify the path to a single folder")
         sys.exit(1)
     else:
         try:
             directory_path = sys.argv[1]
             os.chdir(directory_path)
-            print(f"Changed working directory to: {directory_path}")
+            logging.info(f"Changed working directory to: {directory_path}")
         except FileNotFoundError:
-            print(f"The folder '{directory_path}' does not exist.")
+            logging.error(f"The folder '{directory_path}' does not exist.")
             sys.exit(1)
         
         contents = os.listdir(directory_path)
