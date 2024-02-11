@@ -15,32 +15,41 @@ extensions = {
 
 
 def main():
-    if (len(sys.argv) != 2):
-        logging.error("Specify the path to a single folder")
-        sys.exit(1)
-    else:
-        try:
-            directory_path = sys.argv[1]
-            os.chdir(directory_path)
-            logging.info(f"Changed working directory to: {directory_path}")
-        except FileNotFoundError:
-            logging.error(f"The folder '{directory_path}' does not exist.")
-            sys.exit(1)
+    validate_args()
+    
+    directory_path = sys.argv[1]
+    
+    change_directory(directory_path)
         
-        contents = os.listdir(directory_path)
+    contents = os.listdir(directory_path)
 
-        for file in contents:
-            for_other = True
+    for file in contents:
+        for_other = True
             
-            for extension_type, exts in extensions.items():
-                for extension in exts:
-                    if file.endswith(extension):
-                        print(f"{extension_type}: {file}")
-                        for_other = False
+        for extension_type, exts in extensions.items():
+            for extension in exts:
+                if file.endswith(extension):
+                    print(f"{extension_type}: {file}")
+                    for_other = False
                         
-            if for_other:
-                print(f"Other: {file}")      
-            
+        if for_other:
+            print(f"Other: {file}")      
+         
+         
+def validate_args():
+        if (len(sys.argv) != 2):
+            logging.error("Specify the path to a single folder")
+            sys.exit(1)
+
+
+def change_directory(directory_path):
+    try:
+        os.chdir(directory_path)
+        logging.info(f"Changed working directory to: {directory_path}")
+    except FileNotFoundError:
+        logging.error(f"The folder '{directory_path}' does not exist.")
+        sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
