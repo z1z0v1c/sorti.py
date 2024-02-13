@@ -17,11 +17,14 @@ extensions = {
 def main():
     validate_args()
     
-    directory_path = sys.argv[1]
+    source_dir, dest_dir = get_dirs(sys.argv)
     
-    change_directory(directory_path)
+    logging.info(f"Source directory: {source_dir}")
+    logging.info(f"Destination directory to: {dest_dir}")
+    
+    change_directory(source_dir)
         
-    contents = os.listdir(directory_path)
+    contents = os.listdir(source_dir)
 
     for file in contents:
         for_other = True
@@ -49,6 +52,12 @@ def change_directory(directory_path):
     except FileNotFoundError:
         logging.error(f"The folder '{directory_path}' does not exist.")
         sys.exit(1)
+
+def get_dirs(args):
+    if (len(args) == 2):
+        return args[1], args[1]
+    else:
+        return args[1], args[2]
 
 
 if __name__ == "__main__":
