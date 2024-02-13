@@ -2,7 +2,7 @@ import os
 import sys
 import logging
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 extensions = {
     "Applications" : [".deb", ".rpm", ".tar.gz", ".run", ".exe", ".msi", ".jar", ".dmg", ".app", ".apk"],
@@ -19,8 +19,8 @@ def main():
     
     source_dir, dest_dir = get_dirs(sys.argv)
     
-    logging.info(f"Source directory: {source_dir}")
-    logging.info(f"Destination directory to: {dest_dir}")
+    logging.debug(f"Source directory: {source_dir}")
+    logging.debug(f"Destination directory to: {dest_dir}")
     
     change_directory(source_dir)
         
@@ -48,7 +48,7 @@ def validate_args():
 def change_directory(directory_path):
     try:
         os.chdir(directory_path)
-        logging.info(f"Changed working directory to: {directory_path}")
+        logging.debug(f"Changed working directory to: {directory_path}")
     except FileNotFoundError:
         logging.error(f"The folder '{directory_path}' does not exist.")
         sys.exit(1)
