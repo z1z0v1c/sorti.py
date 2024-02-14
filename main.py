@@ -1,4 +1,5 @@
 import os
+import shutil
 import sys
 import logging
 from pathlib import Path
@@ -22,7 +23,7 @@ def main():
     source_dir, dest_dir = get_dirs(sys.argv)
     
     logging.debug(f"Source directory: {source_dir}")
-    logging.debug(f"Destination directory to: {dest_dir}")
+    logging.debug(f"Destination directory: {dest_dir}")
     
     make_dir(dest_dir)
     
@@ -38,13 +39,15 @@ def main():
                 
                 if file.endswith(extension):
                     print(f"{extension_type}: {file}")
-                    subdir = dest_dir.joinpath(extension_type)
+                    subdir = dest_dir.joinpath(extension_type) 
                     make_dir(subdir)
+                    shutil.move(file, subdir.joinpath(file))
                     for_other = False
                         
         if for_other:
             other = dest_dir.joinpath("Other")
             make_dir(other)
+            shutil.move(file, subdir.joinpath(file))
             print(f"Other: {file}")      
          
          
