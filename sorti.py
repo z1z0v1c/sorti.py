@@ -27,7 +27,7 @@ def main():
     
     make_dir(dest_dir)
     
-    change_directory(source_dir)
+    change_dir(source_dir)
         
     contents = os.listdir(source_dir)
 
@@ -57,12 +57,12 @@ def validate_args():
             sys.exit(1)
 
 
-def change_directory(directory_path):
+def change_dir(path):
     try:
-        os.chdir(directory_path)
-        logging.debug(f"Changed working directory to: {directory_path}")
+        os.chdir(path)
+        logging.debug(f"Changed working directory to: {path}")
     except FileNotFoundError:
-        logging.error(f"The folder '{directory_path}' does not exist.")
+        logging.error(f"The folder '{path}' does not exist.")
         sys.exit(1)
 
 
