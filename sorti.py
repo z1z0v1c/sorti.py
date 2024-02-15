@@ -76,7 +76,7 @@ def get_dirs(args):
 def make_dir(dir):
     if not dir.exists():
         os.makedirs(dir)
-        logging.debug(f"Created directory: {dir}") 
+        logging.debug(f"Created directory: {dir}")
         
         
 if __name__ == "__main__":
