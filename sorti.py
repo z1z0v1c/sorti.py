@@ -1,20 +1,15 @@
+import configparser
+import logging
 import os
+from pathlib import Path
 import shutil
 import sys
-import logging
-from pathlib import Path
 
 
 logging.basicConfig(level=logging.DEBUG)
 
-extensions = {
-    "Applications" : [".deb", ".rpm", ".tar.gz", ".run", ".exe", ".msi", ".jar", ".dmg", ".app", ".apk"],
-    "Code" : [".py", ".java", ".go", ".c", ".h", ".cpp", ".cs", ".js", ".css", "html", ".xml"],
-    "Documents" : [".txt", ".pdf", ".odt", ".ods", ".odp", ".doc", ".docx", ".xlsx", ".pptx", ".csv", ".md"],
-    "Pictures" : [".jpg", ".jpeg", ".png", ".svg", ".gif", ".bmp", ".psd", ".ai"],
-    "Videos" : [".mp4", ".avi", ".mpg", ".mpeg", ".mkv", ".wmv", ".mov", ".m4v"],
-    "Music" : [".mp3", ".wav",".wma", ".m4a", ".aac"]
-}
+config = configparser.ConfigParser()
+config.read("config.ini")
 
 
 def main():
@@ -34,12 +29,12 @@ def main():
     for file in contents:
         for_other = True
             
-        for extension_type, exts in extensions.items():
-            for extension in exts:
+        for file_type in config.sections():
+            for extension in config[file_type]['extensions'].split(','):
                 
                 if file.endswith(extension):
-                    print(f"{extension_type}: {file}")
-                    subdir = dest_dir.joinpath(extension_type) 
+                    print(f"{file_type}: {file}")
+                    subdir = dest_dir.joinpath(file_type) 
                     make_dir(subdir)
                     shutil.move(file, subdir.joinpath(file))
                     for_other = False
@@ -47,7 +42,7 @@ def main():
         if for_other:
             other = dest_dir.joinpath("Other")
             make_dir(other)
-            shutil.move(file, subdir.joinpath(file))
+            shutil.move(file, other.joinpath(file))
             print(f"Other: {file}")      
          
          
