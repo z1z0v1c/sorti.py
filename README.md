@@ -1,2 +1,3 @@
-# fileorganizer
+# sorti.py
+
 A file organizer
