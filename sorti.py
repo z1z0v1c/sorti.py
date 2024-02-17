@@ -20,6 +20,8 @@ def main():
     logging.debug(f"Source directory: {source_dir}")
     logging.debug(f"Destination directory: {dest_dir}")
     
+    make_dir(dest_dir)
+    
     sortify_files(source_dir, dest_dir)
          
          
@@ -38,7 +40,6 @@ def get_dirs(args):
 
 def sortify_files(source_dir, dest_dir):
     change_dir(source_dir)
-    make_dir(dest_dir)
     
     contents = os.listdir(source_dir)
 

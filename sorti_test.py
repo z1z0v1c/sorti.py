@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 import tempfile
 import pytest
-from sorti import validate_args, change_dir, make_dir
+from sorti import validate_args, change_dir, make_dir, sortify_files
 
 
 @pytest.mark.parametrize("args", [["sorti.py", "source_dir", "dest_dir"]])
@@ -45,3 +45,37 @@ def test_make_dir_not_existing():
     assert Path(os.getcwd()) == new_dir
     change_dir(original_dir)
     os.rmdir(new_dir)
+
+
+def test_sortify_files_correct_dir():
+    original_dir = os.getcwd()
+    
+    with tempfile.TemporaryDirectory() as source_dir:
+        jpg_file = mock_file(source_dir, ".jpg")
+        deb_file = mock_file(source_dir, ".deb")
+        py_file = mock_file(source_dir, ".py")
+        txt_file = mock_file(source_dir, ".txt")
+        mp4_file = mock_file(source_dir, ".mp4")
+        mp3_file = mock_file(source_dir, ".mp3")
+        
+        with tempfile.TemporaryDirectory() as dest_dir:
+            sortify_files(Path(source_dir), Path(dest_dir))
+            
+            os.chdir(dest_dir)
+            
+            assert os.getcwd() == dest_dir
+            assert os.path.exists(f"{dest_dir}/Applications/{deb_file}")
+            assert os.path.exists(f"{dest_dir}/Code/{py_file}")
+            assert os.path.exists(f"{dest_dir}/Documents/{txt_file}")
+            assert os.path.exists(f"{dest_dir}/Pictures/{jpg_file}")
+            assert os.path.exists(f"{dest_dir}/Videos/{mp4_file}")
+            assert os.path.exists(f"{dest_dir}/Music/{mp3_file}")
+            
+    os.chdir(original_dir)
+
+
+def mock_file(source_dir, extension):
+    with tempfile.NamedTemporaryFile(dir=source_dir, suffix=extension, delete=False) as f:
+        splited_path= f.name.split('/')
+        return splited_path[len(splited_path) - 1]
+
