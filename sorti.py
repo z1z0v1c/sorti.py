@@ -1,3 +1,4 @@
+import argparse
 import configparser
 import logging
 import os
@@ -13,9 +14,30 @@ config.read("config.ini")
 
 
 def main():
-    validate_args()
+    parser = argparse.ArgumentParser(
+        description='A python console application for files organization'
+    )
     
-    source_dir, dest_dir = get_dirs(sys.argv)
+    # Define flags
+    parser.add_argument(
+        '--input', '-i', type=str, help='Specify a source (input) directory'
+    )
+    parser.add_argument(
+        '--output', '-o', type=str, help='Specify a destination (output) directory'
+    )
+    
+    # Parse command-line arguments
+    args = parser.parse_args()
+    
+    if args.input:
+        source_dir = Path(args.input)
+    else:
+        source_dir = Path.cwd()
+        
+    if args.output:
+        dest_dir = Path(args.output)
+    else:
+        dest_dir = Path.cwd()
     
     logging.debug(f"Source directory: {source_dir}")
     logging.debug(f"Destination directory: {dest_dir}")
@@ -23,12 +45,6 @@ def main():
     make_dir(dest_dir)
     
     sortify_files(source_dir, dest_dir)
-         
-         
-def validate_args():
-        if (len(sys.argv) != 3):
-            logging.error("Specify paths to the source and destination directories.")
-            sys.exit(1)
 
 
 def get_dirs(args):
