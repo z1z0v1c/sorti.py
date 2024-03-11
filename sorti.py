@@ -30,34 +30,34 @@ def main():
     args = parser.parse_args()
     
     if args.input:
-        source_dir = Path(args.input)
+        src_dir = Path(args.input)
     else:
-        source_dir = Path.cwd()
+        src_dir = Path.cwd()
         
     if args.output:
         dest_dir = Path(args.output)
     else:
         dest_dir = Path.cwd()
     
-    logging.debug(f"Source directory: {source_dir}")
+    logging.debug(f"Source directory: {src_dir}")
     logging.debug(f"Destination directory: {dest_dir}")
     
     make_dir(dest_dir)
     
-    sortify_files(source_dir, dest_dir)
+    sortify_files(src_dir, dest_dir)
 
 
 def get_dirs(args):
-    if (len(args) == 2):
+    if len(args) == 2:
         return Path(args[1]), Path(args[1])
     else:
         return Path(args[1]), Path(args[2])
 
 
-def sortify_files(source_dir, dest_dir):
-    change_dir(source_dir)
+def sortify_files(src_dir, dest_dir):
+    change_dir(src_dir)
     
-    contents = os.listdir(source_dir)
+    contents = os.listdir(src_dir)
 
     for file in contents:
         for_other = True
@@ -88,10 +88,10 @@ def change_dir(path):
         sys.exit(1)
 
 
-def make_dir(dir):
-    if not dir.exists():
-        os.makedirs(dir)
-        logging.debug(f"Created directory: {dir}")
+def make_dir(dir_path):
+    if not dir_path.exists():
+        os.makedirs(dir_path)
+        logging.debug(f"Created directory: {dir_path}")
         
         
 if __name__ == "__main__":
