@@ -61,6 +61,5 @@ def test_sortify_files_correct_dir():
 
 def mock_file(source_dir, extension):
     with tempfile.NamedTemporaryFile(dir=source_dir, suffix=extension, delete=False) as f:
-        splited_path= f.name.split('/')
-        return splited_path[len(splited_path) - 1]
-
+        splitted_path = f.name.split('/')
+        return splitted_path[len(splitted_path) - 1]
