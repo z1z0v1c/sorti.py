@@ -47,13 +47,6 @@ def main():
     sortify_files(src_dir, dest_dir)
 
 
-def get_dirs(args):
-    if len(args) == 2:
-        return Path(args[1]), Path(args[1])
-    else:
-        return Path(args[1]), Path(args[2])
-
-
 def sortify_files(src_dir, dest_dir):
     change_dir(src_dir)
     
