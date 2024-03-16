@@ -25,6 +25,9 @@ def main():
     parser.add_argument(
         '--output', '-o', type=str, help='Specify a destination (output) directory'
     )
+    parser.add_argument(
+        '--recursive', '-r', action='store_true', help='Perform recursive classification'
+    )
     
     # Parse command-line arguments
     args = parser.parse_args()
@@ -44,15 +47,17 @@ def main():
     
     make_dir(dest_dir)
     
-    sortify_files(src_dir, dest_dir)
+    sortify_files(src_dir, dest_dir, args.recursive)
 
 
-def sortify_files(src_dir, dest_dir):
-    change_dir(src_dir)
-    
+def sortify_files(src_dir, dest_dir, recursive):
     contents = os.listdir(src_dir)
 
     for file in contents:
+        if src_dir.joinpath(file).is_dir() and recursive:
+            sortify_files(src_dir.joinpath(file), dest_dir, recursive)
+            continue
+
         for_other = True
             
         for file_type in config.sections():
@@ -61,14 +66,14 @@ def sortify_files(src_dir, dest_dir):
                 if file.endswith(extension):
                     subdir = dest_dir.joinpath(file_type) 
                     make_dir(subdir)
-                    shutil.move(file, subdir.joinpath(file))
+                    shutil.move(src_dir.joinpath(file), subdir.joinpath(file))
                     logging.info(f"{file_type}: {file}")
                     for_other = False
                         
         if for_other:
             other = dest_dir.joinpath("Other")
             make_dir(other)
-            shutil.move(file, other.joinpath(file))
+            shutil.move(src_dir.joinpath(file), other.joinpath(file))
             logging.info(f"Other: {file}")
 
 
