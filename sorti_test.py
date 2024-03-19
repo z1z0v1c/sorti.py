@@ -44,7 +44,7 @@ def test_sortify_files_correct_dir():
         mp3_file = mock_file(source_dir, ".mp3")
         
         with tempfile.TemporaryDirectory() as dest_dir:
-            sortify_files(Path(source_dir), Path(dest_dir), recursive=False)
+            sortify_files(Path(source_dir), Path(dest_dir), recursive=False, remove_duplicates=False)
 
             assert os.path.exists(f"{dest_dir}/Applications/{deb_file}")
             assert os.path.exists(f"{dest_dir}/Code/{py_file}")
@@ -67,13 +67,12 @@ def test_sortify_files_recursive_correct_dir():
         source_subdir = os.path.join(source_dir, 'source_subdir')
         os.makedirs(source_subdir)
 
-        # with open(os.path.join(sub_dir, 'example_file.txt'), 'w') as source_subdir:
         txt_file = mock_file(source_subdir, ".txt")
         mp4_file = mock_file(source_subdir, ".mp4")
         mp3_file = mock_file(source_subdir, ".mp3")
 
         with tempfile.TemporaryDirectory() as dest_dir:
-            sortify_files(Path(source_dir), Path(dest_dir), recursive=True)
+            sortify_files(Path(source_dir), Path(dest_dir), recursive=True, remove_duplicates=False)
 
             assert os.path.exists(f"{dest_dir}/Applications/{deb_file}")
             assert os.path.exists(f"{dest_dir}/Code/{py_file}")
