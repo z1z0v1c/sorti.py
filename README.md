@@ -1,3 +1,16 @@
-# sorti.py
+# sorti.py - A files organizer
 
-A file organizer
+## Description
+
+A simple files organization tool written in Python.
+
+## Files
+
+The application includes the following files:
+
+      * config.ini
+      * LICENSE
+      * project.py
+      * README.md
+      * requirements.txt
+      * test_project.py
