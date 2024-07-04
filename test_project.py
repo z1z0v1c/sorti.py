@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 import tempfile
 import pytest
-from sorti import change_dir, make_dir, sortify_files
+from project import change_dir, make_dir, sortify_files
     
     
 def test_change_dir_correct_dir():
