@@ -1,4 +1,4 @@
-# sorti.py - A files organizer
+# sorti.py - a files organizer
 
 ## Description
 
